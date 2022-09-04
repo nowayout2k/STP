@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Threading;
-using Save_the_Princess.Actors.Allies;
-using Timer = System.Timers.Timer;
+using Save_the_Princess.Actors.Characters;
 
 namespace Save_the_Princess
 {
