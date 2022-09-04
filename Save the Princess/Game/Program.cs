@@ -12,9 +12,11 @@ namespace Save_the_Princess
 			PlayerOne playerOne = new PlayerOne();
 			long lastTimeCheck = DateTime.Now.Ticks;
 			
-			while (playerOne.IsAlive && currentLevel >= levels.Length)
+			while (playerOne.IsAlive && currentLevel < levels.Length)
 			{
-				long deltaTime = DateTime.Now.Ticks - lastTimeCheck;
+				long tickDifference = DateTime.Now.Ticks - lastTimeCheck;
+				var milliseconds = new TimeSpan(tickDifference).Milliseconds;
+				float deltaTime = milliseconds/1000f;
 				lastTimeCheck = DateTime.Now.Ticks;
 				levels[currentLevel].Update(deltaTime);
 				levels[currentLevel].Render();
