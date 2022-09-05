@@ -1,20 +1,33 @@
-﻿using Save_the_Princess.Actors.Allies;
-using Save_the_Princess.Attacks;
+﻿using System;
+using Save_the_Princess.Actors.Characters;
+using Save_the_Princess.Games;
 
-namespace Save_the_Princess.Weapons
+namespace Save_the_Princess.Attacks.Abilities
 {
-	public abstract class Ability : Attack, IRender, IUpdate
+	//A type of attack that has a cooldown
+	public abstract class Ability : Attack
 	{
-		protected bool isPassive;
-
 		protected int cooldown;
 
-		public bool IsPassive => isPassive;
+		private double lastUseTimeSeconds;
 
-		public int Cooldown => cooldown;
+		public bool IsOnCooldown => lastUseTimeSeconds + cooldown <= DateTime.UtcNow.TimeOfDay.TotalSeconds;
+		protected Ability(int damage, int range, int cooldown) : base(damage, range)
+		{
+			this.cooldown = cooldown;
+		}
 
-		public abstract void Render();
+		public override void Use(Entity entity)
+		{
+			if (IsOnCooldown)
+				return;
+			
+			lastUseTimeSeconds = DateTime.UtcNow.TimeOfDay.TotalSeconds;
+			if (Game.Instance.Player is Character c)
+			{
+				c.TakeDamage(Damage);
+			}
+		}
 
-		public abstract void Update(float deltaTime);
 	}
 }

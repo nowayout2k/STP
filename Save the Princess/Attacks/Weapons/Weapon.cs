@@ -1,20 +1,22 @@
-﻿using Save_the_Princess.Actors.Allies;
-using Save_the_Princess.Attacks;
+﻿using Save_the_Princess.Games;
 
-namespace Save_the_Princess.Weapons
+namespace Save_the_Princess.Attacks.Weapons
 {
-	public abstract class Weapon : Attack, IRender, IUpdate
+	/// <summary>
+	/// An attack that has durability that lowers upon use
+	/// </summary>
+	public abstract class Weapon : Attack
 	{
-		protected int attackPower;
+		private float durability = 100.0f;
+		protected Weapon(int damage, int range) : base(damage, range)
+		{
+		}
 
-		protected float durability;
-
-		public float Durability => durability;
-
-		public int AttackPower => attackPower;
-
-		public abstract void Render();
-		
-		public abstract void Update(float deltaTime);
+		public override void Use(Entity entity)
+		{
+			if(durability <= 0)
+				return;
+			durability -= .02f;
+		}
 	}
 }
