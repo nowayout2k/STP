@@ -16,6 +16,7 @@ namespace Save_the_Princess.Attacks
 		{
 			this.range = range;
 		}
+		
 		public bool IsInRange(Vector3d source, Vector3d destination)
 		{
 			return (source - destination).Magnitude <= range;

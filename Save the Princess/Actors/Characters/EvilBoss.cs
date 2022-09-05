@@ -10,12 +10,13 @@ namespace Save_the_Princess.Actors.Characters
 	//The End boss character with armor
 	public class EvilBoss : HostileCharacter, IArmored, IMultiAttacker
 	{
+		protected float armor;
+		
 		public Ability Ability { get; }
 
 		public Weapon Weapon { get; }
 		public float Armor => armor;
-		
-		protected float armor;
+
 		public EvilBoss(Vector3d position, Vector3d direction) : base(position, direction, 30)
 		{
 			movement = new WalkerFlierAiMovement(40, 50);
@@ -25,6 +26,22 @@ namespace Save_the_Princess.Actors.Characters
 			armor = 100;
 		}
 
+		protected override bool CanAttack(Entity target)
+		{
+			bool canUseAbility = Ability != null && !Ability.IsOnCooldown && Ability.IsInRange(Position, target.Position);
+			bool canUseWeapon = Weapon != null && Weapon.IsInRange(Position, target.Position);
+			return CanSee(target) && (canUseAbility || canUseWeapon);
+		}
+		public override void Attack(Entity target)
+		{
+			if(!CanAttack(target))
+				return;
+			if(Ability != null && !Ability.IsOnCooldown)
+				Ability.Use(target);
+			else if(Weapon != null)
+				Weapon.Use(target);
+		}
+		
 		public override void TakeDamage(int damage)
 		{
 			if (armor > 0)
@@ -36,7 +53,6 @@ namespace Save_the_Princess.Actors.Characters
 				base.TakeDamage(damage);
 			}
 		}
-		
 		
 		public override void Load()
 		{
@@ -63,22 +79,6 @@ namespace Save_the_Princess.Actors.Characters
 		{
 			Weapon.Update(deltaTime);
 			Ability.Update(deltaTime);
-		}
-		
-		protected override bool CanAttack(Entity target)
-		{
-			bool canUseAbility = Ability != null && !Ability.IsOnCooldown && Ability.IsInRange(Position, target.Position);
-			bool canUseWeapon = Weapon != null && Weapon.IsInRange(Position, target.Position);
-			return CanSee(target) && (canUseAbility || canUseWeapon);
-		}
-		public override void Attack(Entity target)
-		{
-			if(!CanAttack(target))
-				return;
-			if(Ability != null && !Ability.IsOnCooldown)
-				Ability.Use(target);
-			else if(Weapon != null)
-				Weapon.Use(target);
 		}
 	}
 }

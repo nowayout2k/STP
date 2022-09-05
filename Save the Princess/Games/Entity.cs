@@ -8,6 +8,14 @@ namespace Save_the_Princess.Games
 	/// </summary>
 	public abstract class Entity
 	{
+		
+		protected Vector3d position;
+		protected Vector3d direction;
+		protected Vector3d velocity;
+		public Vector3d Position => position;
+		public Vector3d Direction => direction;
+		public Vector3d Velocity => velocity;
+		
 		protected Entity()
 		{
 			position = new Vector3d(0,0,0);
@@ -29,13 +37,6 @@ namespace Save_the_Princess.Games
 			this.velocity = velocity;
 		}
 
-		protected Vector3d position;
-		protected Vector3d direction;
-		protected Vector3d velocity;
-		public Vector3d Position => position;
-		public Vector3d Direction => direction;
-		public Vector3d Velocity => velocity;
-		
 		//creates any assets needed for this entity 
 		public abstract void Load();
 		//destroys any assets needed for this entity

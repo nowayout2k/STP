@@ -7,9 +7,7 @@ namespace Save_the_Princess.Attacks.Weapons
 	public class Shotgun : Weapon
 	{
 
-		public Shotgun() : base(50, 50)
-		{
-		}
+		public Shotgun() : base(50, 50) { }
 		
 		public override void Load()
 		{

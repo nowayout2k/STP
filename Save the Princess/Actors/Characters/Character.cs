@@ -1,5 +1,4 @@
 ﻿using Save_the_Princess.Actors.Movements;
-using Save_the_Princess.Attacks.Abilities;
 using Save_the_Princess.Games;
 using Save_the_Princess.Utility;
 
@@ -10,9 +9,12 @@ namespace Save_the_Princess.Actors.Characters
 	/// </summary>
 	public abstract class Character : Entity
 	{
-		protected Character(Vector3d position, Vector3d direction) : base(position, direction)
+		protected Character(Vector3d position, Vector3d direction) : base(position, direction) { }
+
+		~Character()
 		{
-			
+			movement = null;
+			health = 0;
 		}
 		
 		public float Health => health;

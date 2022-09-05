@@ -16,6 +16,12 @@ namespace Save_the_Princess.Games
 			this.entities = entities;
 		}
 
+		~Level()
+		{
+			Unload();
+			entities?.Clear();
+		}
+
 		public void RemoveEntity(Entity entity)
 		{
 			entity.Unload();
@@ -62,7 +68,6 @@ namespace Save_the_Princess.Games
 					e.Unload();
 				}
 			}
-			entities?.Clear();
 		}
 
 

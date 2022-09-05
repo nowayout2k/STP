@@ -6,13 +6,13 @@ namespace Save_the_Princess.Actors.Movements
 	//Handles where and how the Ai flies
 	public class FlierAiMovement : AiMovement
 	{
+		public int FlySpeed { get; }
+		
 		public FlierAiMovement(int speed)
 		{
 			FlySpeed = speed;
 		}
- 
-		public int FlySpeed { get; }
- 
+
 		public override Vector3d Move(double deltaTime, Entity entity)
 		{
 			var newPosition = entity.Direction * deltaTime * FlySpeed;

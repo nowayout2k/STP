@@ -5,10 +5,14 @@ namespace Save_the_Princess.Attacks.Abilities
 	//shell shock ability
 	public class ShellShock : Ability
 	{
-
-		public ShellShock() : base(5, 0, 0)
+		public ShellShock() : base(5, 0, 0) { }
+		
+		public override void Use(Entity entity)
 		{
+			base.Use(entity);
+			//specific shell shock logic for attacking
 		}
+		
 		public override void Load()
 		{
 			//Load Assets
@@ -27,11 +31,6 @@ namespace Save_the_Princess.Attacks.Abilities
 		public override void Update(double deltaTime)
 		{
 			//update position
-		}
-		public override void Use(Entity entity)
-		{
-			base.Use(entity);
-			//specific shell shock logic for attacking
 		}
 	}
 }

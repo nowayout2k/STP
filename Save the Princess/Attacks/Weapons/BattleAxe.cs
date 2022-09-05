@@ -5,9 +5,7 @@ namespace Save_the_Princess.Attacks.Weapons
 	//A battle axe weapon
 	public class BattleAxe : Weapon
 	{
-		public BattleAxe() : base(40, 5)
-		{
-		}
+		public BattleAxe() : base(40, 5) { }
 		public override void Use(Entity entity)
 		{
 			base.Use(entity);

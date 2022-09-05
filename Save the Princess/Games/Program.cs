@@ -19,21 +19,18 @@ namespace Save_the_Princess.Games
 			var levelTwo = new Level(new List<Entity>{new Turtle(Vector3d.Zero, Vector3d.Left), new Squab(Vector3d.Zero, Vector3d.Left)});
 			var levelThree = new Level(new List<Entity>{ new EvilBoss(Vector3d.Zero, Vector3d.Left), new Princess(Vector3d.Zero, Vector3d.Left) } );
 			Level[] levels = { levelOne, levelTwo, levelThree };
-			
-			//create the player
-			var playerOne = new PlayerOne(Vector3d.Zero, Vector3d.Right);
+
 
 			//create an object to manage the levels
-			Game game = new Game(playerOne, levels);
+			Game game = new Game(levels);
 			
-			var currentLevel = 0;
 			var lastTimeCheck = DateTime.UtcNow.TimeOfDay.TotalMilliseconds;
 			
 			//load the first level
 			game.LoadLevel();
 			
 			//game loop
-			while (playerOne.IsAlive && currentLevel < levels.Length)
+			while (!game.IsGameOver())
 			{
 				var milliseconds = DateTime.UtcNow.TimeOfDay.TotalMilliseconds - lastTimeCheck;
 				var deltaTime = milliseconds/1000f;

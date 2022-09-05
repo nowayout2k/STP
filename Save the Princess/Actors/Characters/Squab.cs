@@ -1,6 +1,5 @@
 ﻿using Save_the_Princess.Actors.Movements;
 using Save_the_Princess.Attacks;
-using Save_the_Princess.Attacks.Abilities;
 using Save_the_Princess.Attacks.Weapons;
 using Save_the_Princess.Games;
 using Save_the_Princess.Utility;
@@ -17,6 +16,20 @@ namespace Save_the_Princess.Actors.Characters
 			movement = new FlierAiMovement(30);
 			Weapon = new Bomb();
 			health = 50;
+		}
+
+		protected override bool CanAttack(Entity target)
+		{
+			bool canUseWeapon = Weapon != null && Weapon.IsInRange(Position, target.Position);
+			return CanSee(target) && canUseWeapon;
+		}
+		
+		public override void Attack(Entity target)
+		{
+			if(!CanAttack(target))
+				return;
+			if(Weapon != null)
+				Weapon.Use(target);
 		}
 		
 		public override void Load()
@@ -40,19 +53,6 @@ namespace Save_the_Princess.Actors.Characters
 		public override void Update(double deltaTime)
 		{
 			Weapon.Update(deltaTime);
-		}
-		
-		protected override bool CanAttack(Entity target)
-		{
-			bool canUseWeapon = Weapon != null && Weapon.IsInRange(Position, target.Position);
-			return CanSee(target) && canUseWeapon;
-		}
-		public override void Attack(Entity target)
-		{
-			if(!CanAttack(target))
-				return;
-			if(Weapon != null)
-				Weapon.Use(target);
 		}
 	}
 }

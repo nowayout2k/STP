@@ -8,9 +8,7 @@ namespace Save_the_Princess.Attacks.Weapons
 	public abstract class Weapon : Attack
 	{
 		private float durability = 100.0f;
-		protected Weapon(int damage, int range) : base(damage, range)
-		{
-		}
+		protected Weapon(int damage, int range) : base(damage, range) { }
 
 		public override void Use(Entity entity)
 		{

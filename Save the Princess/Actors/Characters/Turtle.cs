@@ -1,7 +1,6 @@
 ﻿using Save_the_Princess.Actors.Movements;
 using Save_the_Princess.Attacks;
 using Save_the_Princess.Attacks.Abilities;
-using Save_the_Princess.Attacks.Weapons;
 using Save_the_Princess.Games;
 using Save_the_Princess.Utility;
 
@@ -10,13 +9,11 @@ namespace Save_the_Princess.Actors.Characters
 	//A hostile turtle character with armor
 	public class Turtle : HostileCharacter, IArmored, IAbilityAttacker
 	{
-		public Ability Ability => ability;
-
+		protected float armor;
 		protected Ability ability;
 		public float Armor => armor;
-		
-		protected float armor;
-		
+		public Ability Ability => ability;
+
 		public Turtle(Vector3d position, Vector3d direction) : base(position, direction, 20)
 		{
 			movement = new WalkerAiMovement(10);
@@ -35,6 +32,20 @@ namespace Save_the_Princess.Actors.Characters
 			{
 				base.TakeDamage(damage);
 			}
+		}
+		
+		protected override bool CanAttack(Entity target)
+		{
+			bool canUseAbility = Ability != null && !Ability.IsOnCooldown && Ability.IsInRange(Position, target.Position);
+			return CanSee(target) && canUseAbility;
+		}
+		
+		public override void Attack(Entity target)
+		{
+			if(!CanAttack(target))
+				return;
+			if(Ability != null && !Ability.IsOnCooldown)
+				Ability.Use(target);
 		}
 		
 		public override void Load()
@@ -58,18 +69,6 @@ namespace Save_the_Princess.Actors.Characters
 		public override void Update(double deltaTime)
 		{
 			Ability.Update(deltaTime);
-		}
-		protected override bool CanAttack(Entity target)
-		{
-			bool canUseAbility = Ability != null && !Ability.IsOnCooldown && Ability.IsInRange(Position, target.Position);
-			return CanSee(target) && canUseAbility;
-		}
-		public override void Attack(Entity target)
-		{
-			if(!CanAttack(target))
-				return;
-			if(Ability != null && !Ability.IsOnCooldown)
-				Ability.Use(target);
 		}
 	}
 }

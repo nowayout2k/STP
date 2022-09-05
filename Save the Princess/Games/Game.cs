@@ -12,19 +12,38 @@ namespace Save_the_Princess.Games
 
 		private Level[] levels;
 		
-		public Entity Player
-		{
-			get;
-		}
+		public Character Player { get; }
 
-		public Game(Entity player, Level[] levels)
+		public Game(Level[] levels)
 		{
 			Instance = this;
 			this.levels = levels;
 			levelIndex = 0;
-			Player = player;
+						
+			//create the player
+			Player = new PlayerOne(Vector3d.Zero, Vector3d.Right);
+		}
+
+		~Game()
+		{
+			Instance = null;
+			levels = null;
+			levelIndex = 0;
 		}
 		
+		private void UnloadLevel()
+		{
+			levels[levelIndex].Load();
+		}
+		
+		public bool IsGameOver()
+		{
+			if (levelIndex >= levels.Length || !Player.IsAlive)
+				return true;
+
+			return false;
+		}
+
 		public void Spawn(Entity entity)
 		{
 			levels[levelIndex].SpawnEntity(entity);
@@ -37,12 +56,8 @@ namespace Save_the_Princess.Games
 		
 		public void LoadLevel()
 		{
-			levels[levelIndex].Load();
-		}
-
-		private void UnloadLevel()
-		{
-			levels[levelIndex].Load();
+			if(levelIndex < levels.Length)
+				levels[levelIndex].Load();
 		}
 
 		public void RenderLevel()
@@ -58,8 +73,10 @@ namespace Save_the_Princess.Games
 				levelIndex++;
 				LoadLevel();
 			}
-			
-			levels[levelIndex].Update(deltaTime);
+			else
+			{
+				levels[levelIndex].Update(deltaTime);
+			}
 		}
 	}
 }

@@ -6,9 +6,7 @@ namespace Save_the_Princess.Attacks.Weapons
 	//a bomb weapon
 	public class Bomb : Weapon
 	{
-		public Bomb() : base(60, 20)
-		{
-		}
+		public Bomb() : base(60, 20) { }
 		public override void Load()
 		{
 			//Load Assets

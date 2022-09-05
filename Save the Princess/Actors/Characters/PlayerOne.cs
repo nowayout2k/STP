@@ -11,20 +11,30 @@ namespace Save_the_Princess.Actors.Characters
 	/// </summary>
 	public class PlayerOne : Character, IAttacker, IArmored
 	{
-		
-		public Weapon Weapon => weapon;
-
+		protected float armor;
 		protected Weapon weapon;
 
 		public float Armor => armor;
-		
-		protected float armor;
+		public Weapon Weapon => weapon;
+
 		public PlayerOne(Vector3d position, Vector3d direction) : base(position, direction)
 		{
 			movement = new WalkerPlayerMovement(20);
 			weapon = new Shotgun();
 			health = 100;
 			armor = 100;
+		}
+		
+		public override void TakeDamage(int damage)
+		{
+			if (armor > 0)
+			{
+				armor += damage;
+			}
+			else
+			{
+				base.TakeDamage(damage);
+			}
 		}
 
 		public override void Update(double deltaTime)
@@ -56,18 +66,6 @@ namespace Save_the_Princess.Actors.Characters
 		{
 			//Use an attack
 			Weapon.Use(target);
-		}
-		
-		public override void TakeDamage(int damage)
-		{
-			if (armor > 0)
-			{
-				armor += damage;
-			}
-			else
-			{
-				base.TakeDamage(damage);
-			}
 		}
 	}
 }

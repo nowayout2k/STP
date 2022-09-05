@@ -21,6 +21,21 @@ namespace Save_the_Princess.Actors.Characters
 			health = 60;
 			armor = 20;
 		}
+		
+		protected override bool CanAttack(Entity target)
+		{
+			bool canUseAbility = Ability != null && !Ability.IsOnCooldown && Ability.IsInRange(Position, target.Position);
+			return CanSee(target) && canUseAbility;
+		}
+		
+		public override void Attack(Entity target)
+		{
+			if(!CanAttack(target))
+				return;
+			if(Ability != null && !Ability.IsOnCooldown)
+				Ability.Use(target);
+		}
+		
 		public override void TakeDamage(int damage)
 		{
 			if (armor > 0)
@@ -54,19 +69,6 @@ namespace Save_the_Princess.Actors.Characters
 		public override void Update(double deltaTime)
 		{
 			Ability.Update(deltaTime);
-		}
-		
-		protected override bool CanAttack(Entity target)
-		{
-			bool canUseAbility = Ability != null && !Ability.IsOnCooldown && Ability.IsInRange(Position, target.Position);
-			return CanSee(target) && canUseAbility;
-		}
-		public override void Attack(Entity target)
-		{
-			if(!CanAttack(target))
-				return;
-			if(Ability != null && !Ability.IsOnCooldown)
-				Ability.Use(target);
 		}
 	}
 }

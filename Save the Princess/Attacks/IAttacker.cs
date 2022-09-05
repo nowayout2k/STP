@@ -1,6 +1,4 @@
-﻿using Save_the_Princess.Attacks.Abilities;
-using Save_the_Princess.Attacks.Weapons;
-using Save_the_Princess.Games;
+﻿using Save_the_Princess.Games;
 
 namespace Save_the_Princess.Attacks
 {

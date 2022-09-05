@@ -12,6 +12,7 @@ namespace Save_the_Princess.Attacks.Abilities
 		private double lastUseTimeSeconds;
 
 		public bool IsOnCooldown => lastUseTimeSeconds + cooldown <= DateTime.UtcNow.TimeOfDay.TotalSeconds;
+		
 		protected Ability(int damage, int range, int cooldown) : base(damage, range)
 		{
 			this.cooldown = cooldown;

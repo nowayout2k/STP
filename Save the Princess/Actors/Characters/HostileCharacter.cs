@@ -8,28 +8,35 @@ namespace Save_the_Princess.Actors.Characters
 	//A type of character that has a state and sight distance
 	public abstract class HostileCharacter : Character, IAttacker
 	{
-		private Vector3d initialPos;
-
 		public enum HostileState
 		{
 			Patrol,
 			Chase,
 			Attack
 		}
+		
+		private Vector3d initialPos;
 
 		//A state that determines what actions this character will take
 		protected HostileState state;
-
-		public HostileState State => state;
-
+		
 		//the distance at which this character can see other entities
 		protected int sightDistance;
+		
+		public HostileState State => state;
 
 		protected HostileCharacter(Vector3d position, Vector3d direction, int sightDistance) : base(position, direction)
 		{
 			initialPos = position;
 			state = HostileState.Patrol;
 			this.sightDistance = sightDistance;
+		}
+
+		~HostileCharacter()
+		{
+			initialPos = Vector3d.Zero;
+			state = HostileState.Patrol;
+			sightDistance = 0;
 		}
 
 		protected bool CanSee(Entity target)
@@ -49,9 +56,6 @@ namespace Save_the_Princess.Actors.Characters
 			//this would normally be movement over time but I am just setting it directly for this demo
 			position = initialPos;
 		}
-
-		protected abstract bool CanAttack(Entity target);
-		public abstract void Attack(Entity target);
 
 		private void ChangeState(HostileState newState)
 		{
@@ -98,5 +102,9 @@ namespace Save_the_Princess.Actors.Characters
 					break;
 			}
 		}
+		
+		
+		protected abstract bool CanAttack(Entity target);
+		public abstract void Attack(Entity target);
 	}
 }
